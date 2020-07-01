@@ -53,7 +53,17 @@ class Service:
         driver = webdriver.Chrome(payload.path)
         driver.get(payload.url)
         soup = BeautifulSoup(urlopen(payload.url), payload.parser)
-        arr = [div.a.string for div in soup.find_all('div', attrs={'class':'tit3'})]
+        arr = [div.a.string for div in soup.find_all('div', attrs={'class': 'tit3'})]
+        for i in arr:
+            print(i)
+        driver.close
+
+    def old_car(self, payload):
+
+        driver = webdriver.Chrome(payload.path)
+        driver.get(payload.url)
+        soup = BeautifulSoup(urlopen(payload.url), payload.parser)
+        arr = [td.strong.string for td in soup.find_all('td', attrs={'class': 'prc_hs'})]
         for i in arr:
             print(i)
         driver.close
@@ -75,6 +85,11 @@ class Controller:
         self.model.path = '/Users/kwakky/PycharmProjects/basic/basic/data/chromedriver'
         self.service.naver_movie(self.model)
         pass
+
+    def old_car(self, url):
+        self.model.url = url
+        self.model.parser = 'html.parser'
+        self.service.old_car(self.model)
 
 
 def print_menu():
@@ -98,4 +113,5 @@ while 1:
     if menu == '2':
         app.naver_movie('https://movie.naver.com/movie/sdb/rank/rmovie.nhn')
     if menu == '3':
+        app.old_car('http://www.encar.com/dc/dc_carsearchlist.do?carType=kor#!%7B%22action%22%3A%22(And.Hidden.N._.CarType.Y._.FuelType.%EC%A0%84%EA%B8%B0.)%22%2C%22toggle%22%3A%7B%7D%2C%22layer%22%3A%22%22%2C%22sort%22%3A%22ModifiedDate%22%2C%22page%22%3A1%2C%22limit%22%3A20%7D')
         pass
